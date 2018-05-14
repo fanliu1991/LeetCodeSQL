@@ -15,7 +15,7 @@ For example, given the above Employee table, the query should return 200 as the 
 | 200                 |
 +---------------------+
 
-
+# Approach 1.
 Sort the distinct salary in descend order and then utilize the OFFSET and FETCH clause to get the second highest salary.
 
 The inner query will be judged as 'Wrong Answer' if there is no such second highest salary since there might be only one record in this table.
@@ -37,3 +37,23 @@ If there is only one record in the database, inner query produces
 where with outer query, produces
   SecondHighestSalary
         null
+
+# Approach 2.
+The SQL Server ISNULL() function lets you return an alternative value when an expression is NULL.
+
+ISNULL(expression, alt_value):
+
+expression: Required. The value to test whether is NULL
+alt_value: Required. The value to return if expression is a NULL value
+
+If the expression is a NULL, the ISNULL() function returns the alt_value.
+If the expression is NOT NULL, the ISNULL() function returns the expression.
+
+SELECT ISNULL(
+    (
+        SELECT DISTINCT Salary
+        FROM Employee
+        ORDER BY Salary DESC 
+        OFFSET 1 ROWS
+        FETCH NEXT 1 ROWS ONLY
+    ), null) AS SecondHighestSalary
