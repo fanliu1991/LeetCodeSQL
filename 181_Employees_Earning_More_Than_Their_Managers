@@ -19,12 +19,18 @@ Given the Employee table, write a SQL query that finds out employees who earn mo
 
 1. Using WHERE clause:
 
+Select from two tables will get the Cartesian product of these two tables. 
+However, what we interest is the employee's salary higher than his/her manager. 
+So we should add two conditions in a WHERE clause like below.
+
 SELECT e.Name AS Employee 
 FROM Employee e, Employee m
 WHERE e.ManagerId = m.Id AND e.Salary > m.Salary 
 
 
 2. Using JOIN clause:
+
+JOIN is a more common and efficient way to link tables together, and we can use ON to specify some conditions.
 
 SELECT e.NAME AS Employee
 FROM Employee e INNER JOIN Employee m
