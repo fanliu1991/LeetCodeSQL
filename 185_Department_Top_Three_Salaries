@@ -1,0 +1,60 @@
+The Employee table holds all employees. Every employee has an Id, and there is also a column for the department Id.
+
++----+-------+--------+--------------+
+| Id | Name  | Salary | DepartmentId |
++----+-------+--------+--------------+
+| 1  | Joe   | 70000  | 1            |
+| 2  | Henry | 80000  | 2            |
+| 3  | Sam   | 60000  | 2            |
+| 4  | Max   | 90000  | 1            |
+| 5  | Janet | 69000  | 1            |
+| 6  | Randy | 85000  | 1            |
++----+-------+--------+--------------+
+The Department table holds all departments of the company.
+
++----+----------+
+| Id | Name     |
++----+----------+
+| 1  | IT       |
+| 2  | Sales    |
++----+----------+
+Write a SQL query to find employees who earn the top three salaries in each of the department. For the above tables, your SQL query should return the following rows.
+
++------------+----------+--------+
+| Department | Employee | Salary |
++------------+----------+--------+
+| IT         | Max      | 90000  |
+| IT         | Randy    | 85000  |
+| IT         | Joe      | 70000  |
+| Sales      | Henry    | 80000  |
+| Sales      | Sam      | 60000  |
++------------+----------+--------+
+
+
+Approach: Using JOIN and sub-query
+
+A top 3 salary in a company Department there is no more than 3 salary bigger than itself in the Department.
+So we count the distinct salary number of which is bigger than e1.Salary.
+
+Then, we need to join the Employee table with Department in order to retrieve the department information.
+
+SELECT d.Name as Department, e1.Name AS Employee, e1.Salary AS Salary
+FROM Department d INNER JOIN Employee e1
+ON d.Id = e1.DepartmentId 
+WHERE 3 > (
+    SELECT COUNT(DISTINCT e2.Salary)
+    FROM Employee e2
+    WHERE e2.Salary > e1.Salary AND e2.DepartmentId = e1.DepartmentId
+)
+
+
+Approach: Using DENSE_RANK()
+
+WITH empsalrank AS (
+SELECT d.Name AS Department, e.Name AS Employee, e.Salary, DENSE_RANK() OVER (PARTITION BY d.Name ORDER BY e.Salary DESC) AS salrank
+FROM Employee e, Department d
+WHERE e.Departmentid = d.Id )
+
+SELECT Department AS "Department",Employee AS "Employee",Salary AS "Salary" 
+FROM empsalrank 
+WHERE salrank <=3
