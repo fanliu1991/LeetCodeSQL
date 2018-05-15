@@ -17,6 +17,8 @@ For example, your query should return the following for the above table:
 
 Using GROUP BY and HAVING condition
 
+To add a condition to a GROUP BY, using the HAVING clause, which is much simpler and more efficient.
+
 SELECT Email
 FROM Person
 GROUP BY Email
