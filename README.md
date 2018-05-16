@@ -82,3 +82,64 @@ Here is the result set.
 | Ranjit    | Varkey Chudukatil| 13         | 6    | 2          | 4        | 3827950.238 | 98055      |
 +-----------+------------------+------------+------+------------+----------+-------------+------------+
 
+
+5. Round number to certain decimal places
+
+1) Round ( <numeric_expression>, <length> )
+  
+  <numeric_expression>:
+    an expression of the exact numeric or approximate numeric data type category, except for the bit data type.
+  
+  <length>:
+    the precision to which numeric_expression is to be rounded. 
+   When length is a positive number, numeric_expression is rounded to the number of decimal positions specified by length. 
+   When length is a negative number, numeric_expression is rounded on the left side of the decimal point, as specified by length.
+
+ e.g.
+    ROUND(SUM(CASE WHEN t.Status LIKE "cancelled_by_%" THEN 1 ELSE 0 END) / COUNT(*), 2)
+
+2) CAST ( expression AS data_type )
+  
+  e.g.
+    CAST(SUM(CASE WHEN t.Status != "completed" THEN 1 ELSE 0 END) / COUNT(*) as DECIMAL(3,2))
+    
+  DECIMAL( <total-length>, <decimal-length> )
+    e.g.
+      CAST( 1 as DECIMAL(3,2))  => 1.00
+      CAST( 123.963 as DECIMAL(5,2))  => 123.96
+    
+
+6. caret (^) XOR operator
+The caret (^) translates to the XOR operator, which is a "bitwise exclusive or".
+
+e.g. (id+1)^1-1
+
+id = 1
+(id+1)^1 = (1+1)^1 = 2^1
+
+decimal 2 = binary 010
+XOR
+decimal 1 = binary 001
+=
+decimal 3 = binary 011
+
+(id+1)^1-1 = 3-1 = 2
+
+id = 2
+(id+1)^1 = (2+1)^1 = 3^1
+
+decimal 3 = binary 011
+XOR
+decimal 1 = binary 001
+=
+decimal 2 = binary 010
+
+(id+1)^1-1 = 2-1 = 1
+
+
+7. COALESCE()
+Evaluates the arguments in order and returns the current value of the first expression that initially does not evaluate to NULL. 
+
+For example, SELECT COALESCE(NULL, NULL, 'third_value', 'fourth_value'); 
+returns the third value because the third value is the first value that is not null.
+
