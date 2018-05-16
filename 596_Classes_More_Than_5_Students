@@ -1,0 +1,41 @@
+There is a table courses with columns: student and class
+
+Please list out all classes which have more than or equal to 5 students.
+
+Note:
+The students should not be counted duplicate in each course.
+
+For example, the table:
+
++---------+------------+
+| student | class      |
++---------+------------+
+| A       | Math       |
+| B       | English    |
+| C       | Math       |
+| D       | Biology    |
+| E       | Math       |
+| F       | Computer   |
+| G       | Math       |
+| H       | Math       |
+| I       | Math       |
++---------+------------+
+Should output:
+
++---------+
+| class   |
++---------+
+| Math    |
++---------+
+
+
+Approach: Using GROUP BY and HAVING condition
+
+To get the student number in each class, we can use GROUP BY and COUNT, 
+HAVING is a simpler and natural approach to add some condition to a GROUP BY clause.
+
+SELECT c.class
+FROM courses c
+GROUP BY c.class
+HAVING COUNT(DISTINCT c.student) >= 5
+
