@@ -47,3 +47,14 @@ WHERE (d.Id, e.Salary) IN (
     GROUP BY e.DepartmentId 
 )
 
+The reason of using a subquery is in TSQL,
+you cannot select a column that is not included in a group by clause,
+any columns you select without aggregating must appear in the group by clause.
+Therefore, the following query doesn't work
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+select d.Name as Department, e.Name as Employee, max(e.Salary) as Salary
+from Department d inner join Employee e
+on d.Id = e.DepartmentId 
+group by e.DepartmentId 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
